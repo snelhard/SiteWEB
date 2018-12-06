@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1:3306
--- Généré le :  jeu. 06 déc. 2018 à 10:14
+-- Généré le :  jeu. 06 déc. 2018 à 10:17
 -- Version du serveur :  5.7.23
 -- Version de PHP :  7.2.10
 
@@ -21,6 +21,53 @@ SET time_zone = "+00:00";
 --
 -- Base de données :  `siteweb`
 --
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `entraineur`
+--
+
+DROP TABLE IF EXISTS `entraineur`;
+CREATE TABLE IF NOT EXISTS `entraineur` (
+  `Adresse_mail` varchar(50) NOT NULL,
+  `mdp` varchar(50) DEFAULT NULL,
+  PRIMARY KEY (`Adresse_mail`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+
+--
+-- Déchargement des données de la table `entraineur`
+--
+
+INSERT INTO `entraineur` (`Adresse_mail`, `mdp`) VALUES
+('entraineur@test.fr', '123');
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `joueur`
+--
+
+DROP TABLE IF EXISTS `joueur`;
+CREATE TABLE IF NOT EXISTS `joueur` (
+  `Num_licence` int(11) NOT NULL,
+  `Nom` varchar(50) DEFAULT NULL,
+  `Prenom` varchar(50) DEFAULT NULL,
+  `Photo` varchar(50) DEFAULT NULL,
+  `Date_de_naissance` varchar(50) DEFAULT NULL,
+  `Taille` int(11) DEFAULT NULL,
+  `Poids` int(11) DEFAULT NULL,
+  `Pref_Poste` varchar(50) DEFAULT NULL,
+  PRIMARY KEY (`Num_licence`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+
+--
+-- Déchargement des données de la table `joueur`
+--
+
+INSERT INTO `joueur` (`Num_licence`, `Nom`, `Prenom`, `Photo`, `Date_de_naissance`, `Taille`, `Poids`, `Pref_Poste`) VALUES
+(21, 'Salah', 'Eddine', NULL, '', 111, 120, 'attac'),
+(255, 'qsdlqsdqsd', 'ldsfkdsof', NULL, '2000-02-25', 235, 22, 'def');
 
 -- --------------------------------------------------------
 
@@ -46,6 +93,25 @@ CREATE TABLE IF NOT EXISTS `match_` (
 
 INSERT INTO `match_` (`id_match`, `Date_match`, `Heure_match`, `NomEquipeAdv`, `Lieu_rencontre`, `Nb_buts_adversaire`, `nb_buts_monequipe`) VALUES
 (2, '2018-12-23', '14:00:00', 'Maroc', 'Alger', NULL, NULL);
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `participer`
+--
+
+DROP TABLE IF EXISTS `participer`;
+CREATE TABLE IF NOT EXISTS `participer` (
+  `Num_licence` int(11) NOT NULL,
+  `id_match` varchar(50) NOT NULL,
+  `Titulaire` binary(1) DEFAULT NULL,
+  `Statut` varchar(50) DEFAULT NULL,
+  `Commentaire` text,
+  `nb_match_gagné` int(11) DEFAULT NULL,
+  `nb_match_perdu` int(11) DEFAULT NULL,
+  `Evaluation` int(11) DEFAULT NULL,
+  PRIMARY KEY (`Num_licence`,`id_match`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
