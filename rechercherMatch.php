@@ -2,7 +2,7 @@
 <html>
 	<head>
 	  <meta charset="utf-8">
-	  <title>Recherche de contact</title>
+	  <title>Recherche de match</title>
 	</head>
 	<body>
 		Veuillez saisir la date du match recherché :<br /><br />
@@ -14,45 +14,48 @@
 		</form>
 
 		<?php
-		///Connexion au serveur MySQL
+		//Connexion au serveur MySQL
 		$link = mysqli_connect("localhost", "root", "", "siteweb")
 			or die("Error " . mysqli_error($link));
-
-		///Verification de la connexion
+		
+	 	
+		//Verification de la connexion
 		if (mysqli_connect_errno()) {
 			print("Connect failed: \n" . mysqli_connect_error());
 			exit();
 		}
 
-		//$motscles=$_POST['motscles'];
 		///Ecriture de la requête
-		//$requete1 = "SELECT * FROM Personne WHERE nom like '%".$motscles."%'";
 		if(isset($_POST['dataRecherche'])) {
-			//mise des mots clés dans un tableau splittés par un espace
 		    $dateRecherchee = $_POST['dataRecherche'];
 		    $requete = "SELECT * FROM Match_ WHERE Date_match='$dateRecherchee'";
 
-		    ///Execution de la requête sur le serveur
+		    //Execution de la requête sur le serveur
 			if( !$resquery=mysqli_query($link, $requete) ){
 				die("Error:".mysqli_errno($link).":".mysqli_error($link));
 			} else {
-				///Traitement de la requête
+				//Traitement de la requête
+				$temp = $resquery;
+				
 				while ($row = mysqli_fetch_array($resquery, MYSQLI_NUM)) {
-					if ($row[0]!="") {
 						echo "<b>Identifiant du match</b> : ". $row[0]." </br> <b>Date du match</b> : ". $row[1] . " </br> <b>Heure du match</b> : ". $row[2]."<br />"; 
-							?>
-							</br>Suppression d'un match :
-							<form action="supprimerUnMatch.php" method="post">
-							Identifiant du match : <input type="number" name="idMatch"><br><br />
+						?>
+						Modification ou suppression du match :
+						<br />
+						<form action="supprimerUnMatch.php" method="post">
+							<input type="hidden" name="idMatch" value="<?php echo $row[0]; ?>" />
 							<input type="submit" value="Supprimer">
-							</form>
-							<?php
+						</form>
+						<form action="ModifierMatch.php" method="post">
+							<input type="hidden" name="idMatch" value="<?php echo $row[0]; ?>" />
+							<input type="submit" value="Modifier">
+						</form>
+						</br>
+						<?php
 					}
 				}
-				
-			}
 		}
 
-							?>
+		?>
 	</body>
 </html>
