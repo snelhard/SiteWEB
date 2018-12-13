@@ -15,11 +15,22 @@
 
 		<?php
 		///Connexion au serveur MySQL
-		$link = mysqli_connect("localhost", "root", "", "siteweb")
-			or die("Error " . mysqli_error($link));
-
+		//$link = mysqli_connect("localhost", "root", "", "siteweb")
+			//or die("Error " . mysqli_error($link));
+		
+	 	
+		try {
+    		$dbh = new PDO('mysql:host=localhost;dbname=siteweb', "root", "");
+    		foreach($dbh->query('SELECT * from FOO') as $row) {
+        print_r($row);
+    }
+    $dbh = null;
+} catch (PDOException $e) {
+    print "Erreur !: " . $e->getMessage() . "<br/>";
+    die();
+}
 		///Verification de la connexion
-		if (mysqli_connect_errno()) {
+		/*if (mysqli_connect_errno()) {
 			print("Connect failed: \n" . mysqli_connect_error());
 			exit();
 		}
@@ -37,22 +48,24 @@
 				die("Error:".mysqli_errno($link).":".mysqli_error($link));
 			} else {
 				///Traitement de la requête
+				$temp = $resquery;
+				
 				while ($row = mysqli_fetch_array($resquery, MYSQLI_NUM)) {
-					if ($row[0]!="") {
 						echo "<b>Identifiant du match</b> : ". $row[0]." </br> <b>Date du match</b> : ". $row[1] . " </br> <b>Heure du match</b> : ". $row[2]."<br />"; 
 							?>
 							</br>Suppression d'un match :
 							<form action="supprimerUnMatch.php" method="post">
-							Identifiant du match : <input type="number" name="idMatch"><br><br />
+							Identifiant du match : <input type="number" name="idMatch"><br />
 							<input type="submit" value="Supprimer">
 							</form>
 							<?php
 					}
+					if (mysqli_fetch_array($temp, MYSQLI_NUM)==NULL) {
+						echo "pas de match";
+					}
 				}
-				
-			}
 		}
 
-							?>
+		?>
 	</body>
 </html>
