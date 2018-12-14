@@ -42,11 +42,11 @@
 						?>
 						Modification ou suppression du match :
 						<br />
-						<form action="supprimerUnMatch.php" method="post">
+						<form action="supprimerUnMatch.php" method="get">
 							<input type="hidden" name="idMatch" value="<?php echo $row[0]; ?>" />
 							<input type="submit" value="Supprimer">
 						</form>
-						<form action="ModifierMatch.php" method="post">
+						<form action="ModifierMatch.php" method="get">
 							<input type="hidden" name="idMatch" value="<?php echo $row[0]; ?>" />
 							<input type="submit" value="Modifier">
 						</form>
