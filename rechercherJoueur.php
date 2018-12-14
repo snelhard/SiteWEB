@@ -1,73 +1,50 @@
 <!DOCTYPE html>
 <html>
-	<head>
-	  <meta charset="utf-8">
-	  <title>Recherche de contact</title>
-	</head>
-	<body>
-		Veuillez saisir le numero de licence ou bien le nom ET le prenom d'un joueur<br /><br />
-		<form action="rechercherJoueur.php" method="post">
-	 	 Mots-clés:<br>
-	 	Numero de licence :<input type="number" name="numLicence"><br />
-	 	Ou bien : </br>
-	 	Nom du joueur :<input type="text" name="NomJoueur"><br />
-	 	Prenom du joueur :<input type="text" name="PrenomJoueur"><br />
-	  	<input type="reset" value="Reset">
-	  	<input type="submit" value="Valider">
-		</form>
-
-		<?php
-		///Connexion au serveur MySQL
-		$link = mysqli_connect("localhost", "root", "", "siteweb")
-			or die("Error " . mysqli_error($link));
-
-		///Verification de la connexion
-		if (mysqli_connect_errno()) {
-			print("Connect failed: \n" . mysqli_connect_error());
-			exit();
-		}
-
-		//$motscles=$_POST['motscles'];
-		///Ecriture de la requête
-		//$requete1 = "SELECT * FROM Personne WHERE nom like '%".$motscles."%'";
-		if(empty($_POST['numLicence'])) {
-			if(isset($_POST['NomJoueur']) && isset($_POST['PrenomJoueur'])) {
-				//mise des mots clés dans un tableau splittés par un espace
-			    $NomJoueur = $_POST['NomJoueur'];
-			    $PrenomJoueur = $_POST['PrenomJoueur'];
-			    $requete = "SELECT * FROM Joueur WHERE nom='$NomJoueur' AND prenom='$PrenomJoueur'";
-
-			    ///Execution de la requête sur le serveur
-				if( !$resquery=mysqli_query($link, $requete) ){
-					die("Error:".mysqli_errno($link).":".mysqli_error($link));
-				} else {
-					///Traitement de la requête
-					while ($row = mysqli_fetch_array($resquery, MYSQLI_NUM)) {
-						if ($row[0]!="") {
-							echo "<b>Numero de licence du joueur</b> : ". $row[0]." </br> <b>Nom du joueur</b> : ". $row[1] . " </br> <b>Prenom du joueur</b> : ". $row[2]."<br />"; 		
-						} else {
-							echo "Aucun joueur trouvé avec les parametres donnés";
-						}
-					}
-				}
-			}
-		} else {
-			$numLicence = $_POST['numLicence'];
-			$requete = "SELECT * FROM Joueur WHERE Num_Licence = '$numLicence'";
-
-			if( !$resquery=mysqli_query($link, $requete) ) {
-				die("Error:".mysqli_errno($link).":".mysqli_error($link));
-			} else {
-				///Traitement de la requête
-				while ($row = mysqli_fetch_array($resquery, MYSQLI_NUM)) {
-					if (mysqli_num_rows($resquery) <> 0) {
-						echo "<b>Numero de licence du joueur</b> : ". $row[0]." </br> <b>Nom du joueur</b> : ". $row[1] . " </br> <b>Prenom du joueur</b> : ". $row[2]."<br />"; 		
-					} else {
-						echo "Aucun joueur trouvé avec les parametres donnés";
-					}
-				}
-			}
-		}
-		?>
-	</body>
+<head>
+  <meta charset="utf-8">
+  <title>Recherche de joueur</title>
+</head>
+<body>
+	Veuillez saisir un ou plusieurs mots clés pour effectuer la recherche :<br /><br />
+	<form action="rechercherJoueur.php" method="post">
+ 	Mots-clés:<br>
+ 	<input type="textarea" name="motscles"><br><br />
+  	<input type="reset" value="Reset">
+  	<input type="submit" value="Valider">
+	</form>
+</body>
 </html>
+
+<?PHP
+	require('config.php');
+	//$motscles=$_POST['motscles'];
+	///Ecriture de la requête
+	if(isset($_POST['motscles'])) {
+		//mise des mots clés dans un tableau splittés par un espace
+	    $motscles = explode(' ', $_POST['motscles']);
+	    //evaluation et filtrage du tableau
+	    $jk = array_filter($motscles);
+	    $jk = count($jk);
+	    //requete splittée par une boucle contenant des concaténations
+	    $requete = "SELECT * FROM joueur WHERE Nom = '1' ";
+    	for($j=0; $j<$jk; $j++){
+       		$requete .= "OR Nom LIKE '%".$motscles[$j]."%' OR Nom LIKE '%".$motscles[$j]."%'";
+       	}
+    	$requete .= "order by Num_licence DESC";
+	}
+
+	///Execution de la requête sur le serveur
+	if( !$resquery=mysqli_query($link, $requete)){
+		die("Error:".mysqli_errno($link).":".mysqli_error($link));
+		} else {
+		///Traitement de la requête
+		while ($row = mysqli_fetch_array($resquery, MYSQLI_NUM)) {
+			$user_image = $row['3'];
+    		$repertoire = './images/';
+    	?>	<br />
+    		<img src="<?php echo $repertoire.$user_image; ?>" alt="" />
+    	<?php
+			echo "<b>Numéro de licence</b> : ". $row[0] . " | <b>Nom</b> : ". $row[1]. " | <b>Prénom</b> : ". $row[2]. " | <b>Date_naissance</b> : ". $row[4]. " | <b>Taille</b> : ". $row[5]. " | <b>Poids</b> : ". $row[6]. " | <b>Poste préféré</b> : ". $row[7]."<br />";
+		}
+	}
+?>
