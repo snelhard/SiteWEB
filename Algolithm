@@ -6,16 +6,18 @@ Creer la page rechercher un Match --OK
 Creer la page Supprimer un Match --OK
 Creer la page Creer joueur --OK
 Creer la page Connexion entraineur --OK
-Creer la page rechercher joueur -- OK
+
+Creer la page Modifier un Match --OK
 
 
 
 En cours :
-Creer la page Modifier un Match --En cours
+Creer la page Supprimer joueur --En cours
+Creer la page rechercher joueur --En cours
 
 
 PAS FAIT :
-Creer la page modifier joueur --PAS OK
-Creer la page Supprimer joueur --PAS OK
+
+Creer la page Modifier joueur --PAS OK
 Creer la page Inscription joueur à un match --PAS OK
 Creer la page des stats --PAS OK
