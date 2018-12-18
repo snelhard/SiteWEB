@@ -31,20 +31,35 @@
        		$requete .= "OR Nom LIKE '%".$motscles[$j]."%' OR Nom LIKE '%".$motscles[$j]."%'";
        	}
     	$requete .= "order by Num_licence DESC";
-	}
 
-	///Execution de la requête sur le serveur
-	if( !$resquery=mysqli_query($link, $requete)){
-		die("Error:".mysqli_errno($link).":".mysqli_error($link));
+    	///Execution de la requête sur le serveur
+		if( !$resquery=mysqli_query($link, $requete)){
+			die("Error:".mysqli_errno($link).":".mysqli_error($link));
 		} else {
-		///Traitement de la requête
-		while ($row = mysqli_fetch_array($resquery, MYSQLI_NUM)) {
-			$user_image = $row['3'];
-    		$repertoire = './images/';
-    	?>	<br />
-    		<img src="<?php echo $repertoire.$user_image; ?>" alt="" />
-    	<?php
-			echo "<b>Numéro de licence</b> : ". $row[0] . " | <b>Nom</b> : ". $row[1]. " | <b>Prénom</b> : ". $row[2]. " | <b>Date_naissance</b> : ". $row[4]. " | <b>Taille</b> : ". $row[5]. " | <b>Poids</b> : ". $row[6]. " | <b>Poste préféré</b> : ". $row[7]."<br />";
+			///Traitement de la requête
+			while ($row = mysqli_fetch_array($resquery, MYSQLI_NUM)) {
+				$user_image = $row['3'];
+    			$repertoire = './images/';
+    			?>	<br />
+    			<img src="<?php echo $repertoire.$user_image; ?>" alt="" />
+    		<?php
+				echo "<b>Numéro de licence</b> : ". $row[0] . " | <b>Nom</b> : ". $row[1]. " | <b>Prénom</b> : ". $row[2]. " | <b>Date_naissance</b> : ". $row[4]. " | <b>Taille</b> : ". $row[5]. " | <b>Poids</b> : ". $row[6]. " | <b>Poste préféré</b> : ". $row[7]."<br />";
+				?>
+
+				Modification ou suppression du Joueur :
+						<br />
+						<form action="supprimerUnJoueur.php" method="post">
+							<input type="hidden" name="NumLicence" value="<?php echo $row[0]; ?>" />
+							<input type="submit" value="Supprimer">
+						</form>
+						<form action="ModifierJoueur.php" method="get">
+							<input type="hidden" name="NumLicence" value="<?php echo $row[0]; ?>" />
+							<input type="submit" value="Modifier">
+						</form>
+						</br>
+						<?php 
 		}
 	}
+	}
+	
 ?>

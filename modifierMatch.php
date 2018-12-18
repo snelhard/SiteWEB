@@ -52,7 +52,7 @@ Modification d'un match </br></br></br></br>
 			<p>heure_match : <input type="time" name="heureMmod" /></p>
 			<p>Nom equipe adverse : <input type="text" name="nomEAmod" /></p>
 			<p>Lieu de rencontre : <input type="text" name="LieuRmod" /></p>	 
-			<input type="text" name="idMatchmodif" value="<?php echo $idMatchtempo; ?>" />
+			<input type="hidden" name="idMatchmodif" value="<?php echo $idMatchtempo; ?>" />
 
 			<input name="stock" type="submit" value="Modifier le match">
 			 
