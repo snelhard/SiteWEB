@@ -30,5 +30,6 @@ Il faut maintenant : sécuriser les pages comme demandé pour éviter les accès
 Modifier la page de recherche de joueur : affichage des photos avec BLOB (plus en local).
 Ajouter la page de stats, à faire à la fin.
 Un menu de navigation : assez rapide, à faire à la fin.
+Les inscriptions pour un match : Pouvoir choisir un joueur et l'ajouter à un match. 
 Et faire le CSS des autres pages : assez rapide, on reprendra le code des autres feuilles CSS.
 
