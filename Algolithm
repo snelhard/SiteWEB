@@ -20,3 +20,15 @@ Configurer l'upload des images au serveur --En cours par salah
 
 PAS FAIT :
 Creer la page des stats --PAS OK
+
+
+
+=====
+04/01/2019 : 
+CSS fait pour la page de connexion, ajout de joueur, création de match et recherche de match.
+Il faut maintenant : sécuriser les pages comme demandé pour éviter les accès directs sans être loggé.
+Modifier la page de recherche de joueur : affichage des photos avec BLOB (plus en local).
+Ajouter la page de stats, à faire à la fin.
+Un menu de navigation : assez rapide, à faire à la fin.
+Et faire le CSS des autres pages : assez rapide, on reprendra le code des autres feuilles CSS.
+
